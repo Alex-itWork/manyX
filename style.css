@@ -1,142 +1,92 @@
 :root {
     --neon-blue: #00f3ff;
     --cyber-pink: #ff0066;
-    --matrix-green: #00ff00;
     --dark-bg: #0a0a0f;
-    --cyber-gradient: linear-gradient(45deg, var(--neon-blue), var(--cyber-pink));
 }
 
 body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
     background: var(--dark-bg);
     color: #fff;
-    font-family: 'Ubuntu Mono', monospace;
-    margin: 0;
-    overflow-x: hidden;
+    font-family: 'Press Start 2P', cursive;
+    overflow: hidden;
 }
 
-/* Шапка */
 .header {
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 15px 2cm;
     background: rgba(10, 10, 15, 0.95);
     border-bottom: 3px solid var(--neon-blue);
 }
 
-.logo {
-    width: 150px;
-    filter: drop-shadow(0 0 10px var(--neon-blue));
-}
-
-.nav-menu {
-    display: flex;
-    gap: 1.5rem;
-}
-
-.nav-button {
-    color: var(--neon-blue);
-    text-decoration: none;
-    padding: 10px 20px;
-    border: 2px solid;
-    transition: all 0.3s;
-    position: relative;
-}
-
-.nav-button::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--cyber-gradient);
-    opacity: 0;
-    transition: 0.3s;
-}
-
-.nav-button:hover {
-    color: #000;
-    background: var(--neon-blue);
-    box-shadow: 0 0 15px var(--neon-blue);
-}
-
-/* Главный баннер */
 #main-banner {
-    position: relative;
-    height: 80vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2cm;
+    text-align: center;
+}
+
+.quest-container {
+    flex: 1;
+    padding: 0 2cm 2cm 2cm;
+    overflow-y: auto;
+}
+
+.quest-block {
+    height: calc(100vh - 4cm - 80px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2cm;
+    padding: 1cm;
+    border: 3px solid var(--neon-blue);
+    background: rgba(0,0,0,0.7);
+}
+
+.quest-info {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background: url('images/banner.jpg') no-repeat center/cover;
-}
-
-.glitch {
-    animation: glitch 1s infinite;
-    font-size: 3em;
-}
-
-@keyframes glitch {
-    2% { text-shadow: 3px 0 0 var(--cyber-pink), -3px 0 0 var(--neon-blue); }
-    4% { text-shadow: none; }
-}
-
-/* Квесты */
-.quest-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin: 2rem;
-    padding: 2rem;
-    border: 3px solid var(--cyber-pink);
-}
-
-.quest-block img {
-    width: 100%;
-    max-height: 400px;
-    object-fit: cover;
-    border: 2px solid var(--neon-blue);
 }
 
 .cyber-btn {
-    background: var(--cyber-gradient);
-    border: none;
+    margin: 1cm 0;
     padding: 15px 30px;
+    background: var(--neon-blue);
+    border: 2px solid #000;
     color: #000;
-    font-weight: bold;
-    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s;
 }
 
-.cyber-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px var(--neon-blue);
-}
-
-/* Мобильная версия */
 @media (max-width: 768px) {
+    body {
+        height: auto;
+        overflow-y: auto;
+    }
+    
     .header {
-        flex-direction: column;
-        padding: 1rem;
+        padding: 15px 1cm;
     }
-
-    .nav-menu {
-        flex-direction: column;
-        display: none;
+    
+    #main-banner {
+        padding: 0 1cm;
+        margin-top: 1cm;
     }
-
-    .mobile-menu-btn {
-        display: block;
-        position: absolute;
-        right: 1rem;
-        top: 1rem;
-        background: none;
-        border: none;
-        color: var(--neon-blue);
-        font-size: 2em;
-    }
-
+    
     .quest-block {
+        height: auto;
         grid-template-columns: 1fr;
+        gap: 1cm;
+        padding: 1cm;
+        margin: 1cm 0;
+    }
+    
+    .cyber-btn {
+        margin: 0.5cm 0;
     }
 }
