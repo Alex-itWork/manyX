@@ -1,33 +1,29 @@
-// Музыка при загрузке
-document.addEventListener('DOMContentLoaded', () => {
-    const bgMusic = document.getElementById('bg-music');
-    bgMusic.volume = 0.3;
-    bgMusic.play();
-});
-
-// Звуки
-function playSound(type) {
-    const sounds = {
-        button: 'audio/button_sound.mp3',
-        quest: 'audio/quest_start.mp3'
-    };
-    const audio = new Audio(sounds[type]);
-    audio.play();
-}
-
-// Квесты
-function startQuest() {
-    playSound('quest');
-    window.location.href = '?quest=1';
+function showFirstQuest() {
+    // Плавное скрытие баннера
+    const banner = document.getElementById('main-banner');
+    banner.classList.add('hidden');
+    
+    // Показ контейнера квеста
+    const questContainer = document.getElementById('quest-container');
+    questContainer.classList.remove('hidden');
+    
+    // Обновление URL без перезагрузки
+    history.pushState(null, null, '?quest=1');
+    
+    // Загрузка первого квеста
+    if(window.location.search.indexOf('quest=1') === -1) {
+        window.location.href = '?quest=1';
+    }
 }
 
 function nextQuest(level) {
-    playSound('button');
     window.location.href = `?quest=${level}`;
 }
 
-// Мобильное меню
-document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
-    const menu = document.querySelector('.nav-menu');
-    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
-});
+// Восстановление состояния при загрузке
+window.onload = function() {
+    if(window.location.search.includes('quest=')) {
+        document.getElementById('main-banner').classList.add('hidden');
+        document.getElementById('quest-container').classList.remove('hidden');
+    }
+}
