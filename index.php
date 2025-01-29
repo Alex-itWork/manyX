@@ -1,6 +1,16 @@
 <?php
 session_start();
 $current_level = isset($_GET['level']) ? (int)$_GET['level'] : 0;
+$max_level = 7;
+
+function getQuestData($level) {
+    $quests = [
+        1 => ['title' => 'Начало квеста', 'hint' => 'Ищи скрытые символы'],
+        2 => ['title' => 'Киберлабиринт', 'hint' => 'Повернись на 180°'],
+        // Добавьте данные для всех уровней
+    ];
+    return $quests[$level] ?? ['title' => 'Уровень '.$level, 'hint' => 'Базовая подсказка'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -12,53 +22,43 @@ $current_level = isset($_GET['level']) ? (int)$_GET['level'] : 0;
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="cyber-header">
-        <div class="logo-container">
-            <img src="images/logo.png" class="cyber-logo" alt="МЕМЕ">
-            <span class="logo-text">МЕМЕ</span>
-        </div>
-        <nav class="desktop-nav">
-            <a href="#about" class="cyber-nav-btn">О нас</a>
-            <a href="https://vk.com" target="_blank" class="cyber-nav-btn">VK</a>
-            <a href="https://t.me" target="_blank" class="cyber-nav-btn">TG</a>
-            <a href="https://ozon.ru" target="_blank" class="cyber-nav-btn">OZON</a>
-            <a href="https://wildberries.ru" target="_blank" class="cyber-nav-btn">WB</a>
-            <a href="https://yandex.ru" target="_blank" class="cyber-nav-btn">ЯД</a>
-        </nav>
-        <div class="mobile-menu-btn">☰</div>
-    </header>
-
-    <main class="cyber-main">
+    <?php include __DIR__ . '/includes/header.php'; ?>
+    
+    <main class="main-content">
         <?php if($current_level === 0): ?>
-        <section class="start-screen">
-            <h1 class="glitch-text">ПРОЙДИ КВЕСТ</h1>
-            <div class="cyber-buttons">
-                <button class="cyber-button" onclick="loadQuest(1)">СТАРТ</button>
-                <button class="cyber-button" onclick="window.open('https://t.me')">ТЕЛЕГА</button>
-            </div>
-        </section>
-        <?php else: ?>
-        <section class="quest-screen">
-            <div class="quest-image"></div>
-            <div class="quest-content">
-                <h2 class="cyber-title">Уровень <?= $current_level ?></h2>
-                <p class="cyber-text"><?= getQuestDescription($current_level) ?></p>
-                <div class="quest-controls">
-                    <?php if($current_level > 1): ?>
-                    <button class="cyber-button small" onclick="loadQuest(<?= $current_level-1 ?>)">НАЗАД</button>
-                    <?php endif; ?>
-                    <button class="cyber-button small" onclick="showHint()">ПОДСКАЗКА</button>
-                    <?php if($current_level < 7): ?>
-                    <button class="cyber-button" onclick="loadQuest(<?= $current_level+1 ?>)">ДАЛЕЕ</button>
-                    <?php else: ?>
-                    <button class="cyber-button" onclick="window.open('https://final.ru')">ФИНАЛ</button>
-                    <?php endif; ?>
+            <section class="start-screen">
+                <h1 class="glitch">ПРОЙДИ КВЕСТ</h1>
+                <div class="buttons">
+                    <button class="cyber-btn" onclick="loadLevel(1)">СТАРТ</button>
+                    <button class="cyber-btn" onclick="window.open('https://t.me')">ТЕЛЕГА</button>
                 </div>
-            </div>
-        </section>
+            </section>
+        <?php else: ?>
+            <section class="quest-screen">
+                <div class="quest-image">
+                    <img src="images/quest/<?= $current_level ?>.jpg" alt="Квест <?= $current_level ?>">
+                </div>
+                <div class="quest-info">
+                    <h2><?= getQuestData($current_level)['title'] ?></h2>
+                    <div class="quest-controls">
+                        <?php if($current_level > 1): ?>
+                            <button class="cyber-btn small" onclick="loadLevel(<?= $current_level-1 ?>)">← НАЗАД</button>
+                        <?php endif; ?>
+                        <button class="cyber-btn small" onclick="showHint()">ПОДСКАЗКА</button>
+                        <?php if($current_level < $max_level): ?>
+                            <button class="cyber-btn" onclick="loadLevel(<?= $current_level+1 ?>)">ДАЛЕЕ →</button>
+                        <?php else: ?>
+                            <button class="cyber-btn" onclick="window.open('https://final.ru')">ФИНАЛ</button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </section>
         <?php endif; ?>
     </main>
 
+    <?php include __DIR__ . '/includes/footer.php'; ?>
+
     <script src="script.js"></script>
+    <audio id="click-sound" src="audio/button_sound.mp3"></audio>
 </body>
 </html>
