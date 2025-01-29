@@ -1,56 +1,53 @@
 <?php
 session_start();
-// Определяем текущий уровень
-$current_level = isset($_GET['level']) ? (int)$_GET['level'] : 1;
-$max_level = 7;
-
-// Данные для блоков (можно вынести в БД)
-$content = [
-    1 => ['title' => 'Кибер-мемы', 'img' => 'images/banners/lvl1.jpg'],
-    2 => ['title' => 'Космические приколы', 'img' => 'images/banners/lvl2.jpg'],
-    // ... добавить данные для всех уровней
-];
+$current_quest = isset($_GET['quest']) ? (int)$_GET['quest'] : 0;
+$max_quest = 7;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>МЕМЕ | Уровень <?= $current_level ?></title>
+    <title>МЕМЕ | КиберКвест</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
     
-    <div class="container">
-        <?php if($current_level <= $max_level): ?>
-            <section class="content-block">
-                <img src="<?= $content[$current_level]['img'] ?>" alt="Мем уровня <?= $current_level ?>">
-                <h2><?= $content[$current_level]['title'] ?></h2>
-                <p>Описание раздела уровня <?= $current_level ?>...</p>
-                
-                <?php if($current_level < $max_level): ?>
-                    <a href="?level=<?= $current_level+1 ?>" class="cyber-button" onclick="playSound()">
-                        Перейти на уровень <?= $current_level+1 ?>
-                    </a>
-                <?php else: ?>
-                    <a href="https://example.com" class="cyber-button" onclick="playSound()">
-                        Финальный переход!
-                    </a>
-                <?php endif; ?>
-            </section>
-        <?php endif; ?>
-    </div>
-
-    <!-- Модальное окно -->
-    <div id="telega-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="blink">ЗАЛЕТАЙ В ТЕЛЕГУ!</h2>
+    <!-- Главный баннер -->
+    <div id="main-banner" class="<?= $current_quest > 0 ? 'hidden' : '' ?>">
+        <h2 class="glitch">ПРОЙДИ КВЕСТ</h2>
+        <div class="banner-buttons">
+            <button class="cyber-btn" onclick="window.open('https://t.me/your_channel')">ТЕЛЕГА</button>
+            <button class="cyber-btn" onclick="startQuest()">СТАРТ</button>
         </div>
     </div>
 
+    <!-- Блоки квестов -->
+    <div class="quest-container">
+        <?php if($current_quest > 0 && $current_quest <= $max_quest): ?>
+            <div class="quest-block">
+                <img src="images/quest/<?= $current_quest ?>.jpg" alt="Квест <?= $current_quest ?>">
+                <div class="quest-info">
+                    <h3>Уровень <?= $current_quest ?></h3>
+                    <p>Описание квеста...</p>
+                    <?php if($current_quest < $max_quest): ?>
+                        <button class="cyber-btn" onclick="nextQuest(<?= $current_quest + 1 ?>)">ПРОДОЛЖИТЬ</button>
+                    <?php else: ?>
+                        <button class="cyber-btn" onclick="window.open('https://final-link.com')">ФИНАЛ</button>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <?php include 'includes/footer.php'; ?>
+
+    <audio id="bg-music" loop>
+        <source src="audio/bg_music.mp3" type="audio/mpeg">
+    </audio>
+    
     <script src="script.js"></script>
 </body>
 </html>
