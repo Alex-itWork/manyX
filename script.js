@@ -1,29 +1,30 @@
-function showFirstQuest() {
-    // Плавное скрытие баннера
-    const banner = document.getElementById('main-banner');
-    banner.classList.add('hidden');
-    
-    // Показ контейнера квеста
-    const questContainer = document.getElementById('quest-container');
-    questContainer.classList.remove('hidden');
-    
-    // Обновление URL без перезагрузки
-    history.pushState(null, null, '?quest=1');
-    
-    // Загрузка первого квеста
-    if(window.location.search.indexOf('quest=1') === -1) {
-        window.location.href = '?quest=1';
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    // Мобильное меню
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+        const nav = document.querySelector('.desktop-nav');
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+});
+
+function loadQuest(level) {
+    // Мгновенная загрузка через AJAX
+    fetch(`?level=${level}`)
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = html;
+            window.scrollTo(0, 0);
+        });
 }
 
-function nextQuest(level) {
-    window.location.href = `?quest=${level}`;
+function showHint() {
+    // Реализация подсказки
+    alert('Используй силу мемов!');
 }
 
-// Восстановление состояния при загрузке
-window.onload = function() {
-    if(window.location.search.includes('quest=')) {
-        document.getElementById('main-banner').classList.add('hidden');
-        document.getElementById('quest-container').classList.remove('hidden');
-    }
+// Прелоад изображений
+const preloadImages = [];
+for(let i = 1; i <= 7; i++) {
+    const img = new Image();
+    img.src = `images/quest/${i}.jpg`;
+    preloadImages.push(img);
 }

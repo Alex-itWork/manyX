@@ -1,7 +1,6 @@
 <?php
 session_start();
-$current_quest = isset($_GET['quest']) ? (int)$_GET['quest'] : 0;
-$max_quest = 7;
+$current_level = isset($_GET['level']) ? (int)$_GET['level'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -10,41 +9,56 @@ $max_quest = 7;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>МЕМЕ | КиберКвест</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/header.php'; ?>
-    
-    <!-- Главный баннер -->
-    <div id="main-banner" class="<?= $current_quest > 0 ? 'hidden' : 'visible' ?>">
-        <h2 class="glitch">ПРОЙДИ КВЕСТ</h2>
-        <div class="banner-buttons">
-            <button class="cyber-btn" onclick="window.open('https://t.me')">ТЕЛЕГА</button>
-            <button class="cyber-btn" onclick="showFirstQuest()">СТАРТ</button>
+    <header class="cyber-header">
+        <div class="logo-container">
+            <img src="images/logo.png" class="cyber-logo" alt="МЕМЕ">
+            <span class="logo-text">МЕМЕ</span>
         </div>
-    </div>
+        <nav class="desktop-nav">
+            <a href="#about" class="cyber-nav-btn">О нас</a>
+            <a href="https://vk.com" target="_blank" class="cyber-nav-btn">VK</a>
+            <a href="https://t.me" target="_blank" class="cyber-nav-btn">TG</a>
+            <a href="https://ozon.ru" target="_blank" class="cyber-nav-btn">OZON</a>
+            <a href="https://wildberries.ru" target="_blank" class="cyber-nav-btn">WB</a>
+            <a href="https://yandex.ru" target="_blank" class="cyber-nav-btn">ЯД</a>
+        </nav>
+        <div class="mobile-menu-btn">☰</div>
+    </header>
 
-    <!-- Блоки квестов -->
-    <div id="quest-container" class="<?= $current_quest > 0 ? 'visible' : 'hidden' ?>" 
-         style="margin-top: 1cm">
-        <?php if($current_quest > 0 && $current_quest <= $max_quest): ?>
-            <div class="quest-block">
-                <img src="images/quest/<?= $current_quest ?>.jpg" alt="Квест <?= $current_quest ?>">
-                <div class="quest-info">
-                    <h3>Уровень <?= $current_quest ?></h3>
-                    <p>Описание квеста...</p>
-                    <?php if($current_quest < $max_quest): ?>
-                        <button class="cyber-btn" onclick="nextQuest(<?= $current_quest + 1 ?>)">ПРОДОЛЖИТЬ</button>
+    <main class="cyber-main">
+        <?php if($current_level === 0): ?>
+        <section class="start-screen">
+            <h1 class="glitch-text">ПРОЙДИ КВЕСТ</h1>
+            <div class="cyber-buttons">
+                <button class="cyber-button" onclick="loadQuest(1)">СТАРТ</button>
+                <button class="cyber-button" onclick="window.open('https://t.me')">ТЕЛЕГА</button>
+            </div>
+        </section>
+        <?php else: ?>
+        <section class="quest-screen">
+            <div class="quest-image"></div>
+            <div class="quest-content">
+                <h2 class="cyber-title">Уровень <?= $current_level ?></h2>
+                <p class="cyber-text"><?= getQuestDescription($current_level) ?></p>
+                <div class="quest-controls">
+                    <?php if($current_level > 1): ?>
+                    <button class="cyber-button small" onclick="loadQuest(<?= $current_level-1 ?>)">НАЗАД</button>
+                    <?php endif; ?>
+                    <button class="cyber-button small" onclick="showHint()">ПОДСКАЗКА</button>
+                    <?php if($current_level < 7): ?>
+                    <button class="cyber-button" onclick="loadQuest(<?= $current_level+1 ?>)">ДАЛЕЕ</button>
                     <?php else: ?>
-                        <button class="cyber-btn" onclick="window.open('https://final-link.com')">ФИНАЛ</button>
+                    <button class="cyber-button" onclick="window.open('https://final.ru')">ФИНАЛ</button>
                     <?php endif; ?>
                 </div>
             </div>
+        </section>
         <?php endif; ?>
-    </div>
+    </main>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/includes/footer.php'; ?>
-    
     <script src="script.js"></script>
 </body>
 </html>
