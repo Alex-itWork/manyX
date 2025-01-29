@@ -1,46 +1,56 @@
+<?php
+session_start();
+// Определяем текущий уровень
+$current_level = isset($_GET['level']) ? (int)$_GET['level'] : 1;
+$max_level = 7;
+
+// Данные для блоков (можно вынести в БД)
+$content = [
+    1 => ['title' => 'Кибер-мемы', 'img' => 'images/banners/lvl1.jpg'],
+    2 => ['title' => 'Космические приколы', 'img' => 'images/banners/lvl2.jpg'],
+    // ... добавить данные для всех уровней
+];
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>МЕМЕ</title>
+    <title>МЕМЕ | Уровень <?= $current_level ?></title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap">
 </head>
 <body>
-    <div class="banner">
-        <p>ЗАЛЕТАЙ В ТЕЛЕГУ</p>
-    </div>
-    <header>
-        <div class="logo">МЕМЕ</div>
-        <nav>
-            <ul>
-                <li><a href="#">О нас</a></li>
-                <li><a href="#">WB</a></li>
-                <li><a href="#">OZON</a></li>
-                <li><a href="#">ЯД</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <?php for ($i = 1; $i <= 5; $i++): ?>
-            <section class="block">
-                <img src="https://via.placeholder.com/300" alt="Изображение">
-                <textarea placeholder="Введите описание..."></textarea>
-                <button onclick="showBanner('<?php echo $i + 1 ?>')">Перейти к разделу <?php echo $i + 1 ?></button>
+    <?php include 'includes/header.php'; ?>
+    
+    <div class="container">
+        <?php if($current_level <= $max_level): ?>
+            <section class="content-block">
+                <img src="<?= $content[$current_level]['img'] ?>" alt="Мем уровня <?= $current_level ?>">
+                <h2><?= $content[$current_level]['title'] ?></h2>
+                <p>Описание раздела уровня <?= $current_level ?>...</p>
+                
+                <?php if($current_level < $max_level): ?>
+                    <a href="?level=<?= $current_level+1 ?>" class="cyber-button" onclick="playSound()">
+                        Перейти на уровень <?= $current_level+1 ?>
+                    </a>
+                <?php else: ?>
+                    <a href="https://example.com" class="cyber-button" onclick="playSound()">
+                        Финальный переход!
+                    </a>
+                <?php endif; ?>
             </section>
-        <?php endfor; ?>
-    </main>
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close-btn" onclick="hideBanner()">&times;</span>
-            <img src="images/frog.png" alt="Лягушка" class="frog">
-            <div class="popup-text">
-                <h2>Раздел <?php echo basename(__FILE__, '.php') ?></h2>
-                <p>Вот описание раздела.</p>
-            </div>
-        </div>
-        <audio id="bannerAudio" src="audio/banner_sound.mp3"></audio>
+        <?php endif; ?>
     </div>
+
+    <!-- Модальное окно -->
+    <div id="telega-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="blink">ЗАЛЕТАЙ В ТЕЛЕГУ!</h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

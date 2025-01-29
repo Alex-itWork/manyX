@@ -1,26 +1,31 @@
-function showBanner(target) {
-    var audio = new Audio('audio/banner_sound.mp3');
+// Воспроизведение звука
+function playSound() {
+    const audio = new Audio('audio/meme_sound.mp3');
     audio.play();
+}
 
-    var popup = document.getElementById('popup');
-    popup.style.display = 'flex';
+// Модальное окно
+window.onload = function() {
+    const modal = document.getElementById('telega-modal');
+    const span = document.getElementsByClassName("close")[0];
+    
+    if(!sessionStorage.getItem('modalShown')) {
+        modal.style.display = "block";
+        sessionStorage.setItem('modalShown', 'true');
+    }
 
-    if (target === 'external') {
-        setTimeout(function() {
-            window.location.href = 'https://example.com';
-        }, 3000); // Задержка перед переходом на внешний сайт
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
     }
 }
 
-function hideBanner() {
-    var audio = new Audio('audio/banner_sound.mp3');
-    audio.play();
-
-    var popup = document.getElementById('popup');
-    popup.style.display = 'none';
-}
-
-function playSound() {
-    var audio = new Audio('audio/meme.mp3');
-    audio.play();
-}
+// Добавляем обработчик на все кнопки
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', playSound);
+});
