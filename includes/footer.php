@@ -1,3 +1,5 @@
-<footer class="footer">
-    <p>2025 МЕМЕ - Все права защищены</p>
+<!-- footer.php -->
+
+<footer>
+    <p>2025 MEME Все права защищены</p>
 </footer>
