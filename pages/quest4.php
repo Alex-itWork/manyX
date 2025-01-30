@@ -12,10 +12,11 @@
     <?php include '../includes/header.php'; ?>
 
     <div class="quest-container">
-        <h1>Заголовок квеста</h1>
-        <p>Описание квеста...</p>
+        <h1>Заголовок квеста 1</h1>
+        <p>Описание квеста 1...</p>
         <button onclick="window.location.href='quest2.php'">Летим дальше</button>
         <button onclick="window.history.back()">Назад</button>
+        <img src="../images/quest1.jpg" alt="Quest 1 Image">
     </div>
 
     <?php include '../includes/footer.php'; ?>
