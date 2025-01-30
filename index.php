@@ -14,7 +14,7 @@
     <div id="banner">
         <p>ЗАЛЕТАЙТЕ В ТЕЛЕГУ</p>
         <button onclick="window.location.href='https://t.me/yourlink'">Перейти</button>
-        <span id="close-banner">X</span>
+        <span id="close-banner" onclick="document.getElementById('banner').style.display = 'none';">X</span>
     </div>
 
     <main>
