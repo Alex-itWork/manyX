@@ -1,32 +1,23 @@
-<!-- header.php -->
-
-<header>
-    <div class="mobile-menu">
-        <div class="menu-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+<header class="cyber-header">
+    <div class="header-inner">
         <div class="logo">
-            <a href="index.php"><img src="../images/logo.png" alt="MEME"></a>
+            <img src="images/logo.png" alt="MEME">
+            <span>МЕМЕ</span>
         </div>
+        
+        <nav class="desktop-nav">
+            <a href="/about" class="nav-link">О нас</a>
+            <a href="https://vk.com" target="_blank" class="nav-link">VK</a>
+            <a href="https://t.me" target="_blank" class="nav-link">TG</a>
+            <a href="https://ozon.ru" target="_blank" class="nav-link">OZON</a>
+            <a href="https://wildberries.ru" target="_blank" class="nav-link">WB</a>
+            <a href="https://yandex.ru" target="_blank" class="nav-link">ЯД</a>
+        </nav>
+
+        <button class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
-    <nav class="mobile-nav">
-        <ul>
-            <li><a href="https://t.me/yourlink">TG</a></li>
-            <li><a href="https://vk.com/yourlink">VK</a></li>
-            <li><a href="https://wb.ru/yourlink">WB</a></li>
-            <li><a href="https://ozon.ru/yourlink">OZON</a></li>
-            <li><a href="https://market.yandex.ru/yourlink">Яндекс Маркет</a></li>
-        </ul>
-    </nav>
-    <nav>
-        <ul>
-            <li><a href="https://t.me/yourlink">TG</a></li>
-            <li><a href="https://vk.com/yourlink">VK</a></li>
-            <li><a href="https://wb.ru/yourlink">WB</a></li>
-            <li><a href="https://ozon.ru/yourlink">OZON</a></li>
-            <li><a href="https://market.yandex.ru/yourlink">Яндекс Маркет</a></li>
-        </ul>
-    </nav>
 </header>

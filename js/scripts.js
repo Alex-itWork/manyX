@@ -1,36 +1,49 @@
-// scripts.js
-
-document.querySelectorAll('nav ul li a').forEach(item => {
-    item.addEventListener('click', () => {
-        playSound('click');
+document.addEventListener('DOMContentLoaded', () => {
+    // Мобильное меню
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const nav = document.querySelector('.desktop-nav');
+    
+    menuBtn.addEventListener('click', () => {
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        playSound();
     });
-});
 
-document.querySelectorAll('.content-block button').forEach(button => {
-    button.addEventListener('click', () => {
-        if (button.textContent === 'Начать квест') {
-            window.location.href = 'quest1.php';
-            playSound('quest-start');
-        } else {
-            playSound('click');
+    // Закрытие меню при клике вне его
+    document.addEventListener('click', (e) => {
+        if(!e.target.closest('.desktop-nav') && !e.target.closest('.mobile-menu-btn')) {
+            nav.style.display = 'none';
         }
     });
 });
 
-const menuIcon = document.querySelector('.menu-icon');
-const mobileNav = document.querySelector('.mobile-nav');
+function loadLevel(level) {
+    playSound();
+    history.replaceState(null, null, `?level=${level}`);
+    
+    // Быстрая загрузка через AJAX
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const newDoc = parser.parseFromString(html, 'text/html');
+            document.body.innerHTML = newDoc.body.innerHTML;
+            window.scrollTo(0, 0);
+        });
+}
 
-menuIcon.addEventListener('click', () => {
-    mobileNav.classList.toggle('active');
-});
+function showHint() {
+    playSound();
+    // Реализация подсказки
+    alert('Подсказка: Используй кибер-интуицию!');
+}
 
-document.getElementById('close-banner').addEventListener('click', () => {
-    document.getElementById('banner').style.display = 'none';
-});
-
-function playSound(sound) {
-    const audio = new Audio(`../sounds/${sound}.mp3`);
+function playSound() {
+    const audio = document.getElementById('click-sound');
+    audio.currentTime = 0;
     audio.play();
 }
 
-document.getElementById('background-music').play();
+// Прелоад изображений
+for(let i = 1; i <= 7; i++) {
+    new Image().src = `images/quest/${i}.jpg`;
+}
